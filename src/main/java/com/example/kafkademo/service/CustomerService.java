@@ -14,11 +14,16 @@ import java.util.concurrent.CompletableFuture;
 @RequiredArgsConstructor
 public class CustomerService {
 
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
     public String getCustomer(String customerId) {
 
-        CompletableFuture<SendResult<String, String>> testTopic = kafkaTemplate.send("testTopic", "1234", customerId + "hello");
+        CustomerDto customerDto = CustomerDto.builder()
+                .customerId(customerId)
+                .customerName("John Doe")
+                .gender("male")
+                .build();
+        CompletableFuture<SendResult<String, Object>> testTopic = kafkaTemplate.send("testTopic", "1234", customerDto);
 
         return "Customer ID: " + customerId + " is found.";
     }
