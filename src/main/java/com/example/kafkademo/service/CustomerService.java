@@ -1,13 +1,11 @@
 package com.example.kafkademo.service;
 
+import com.example.kafkademo.entity.CustomerEntity;
+import com.example.kafkademo.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDate;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 @Transactional
@@ -15,16 +13,19 @@ import java.util.concurrent.CompletableFuture;
 public class CustomerService {
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
+    private final CustomerRepository customerRepository;
 
-    public String getCustomer(String customerId) {
+    public CustomerDto getCustomer(String customerId) {
 
-        CustomerDto customerDto = CustomerDto.builder()
-                .customerId(customerId)
-                .customerName("John Doe")
-                .gender("male")
-                .build();
-        CompletableFuture<SendResult<String, Object>> testTopic = kafkaTemplate.send("testTopic", "1234", customerDto);
+        CustomerEntity entity = customerRepository.findById(Integer.parseInt(customerId))
+                .orElseThrow(() -> new RuntimeException("Customer ID: " + customerId + " is not found."));
 
-        return "Customer ID: " + customerId + " is found.";
+        return CustomerDto.fromEntity(entity);
+    }
+
+    public CustomerDto createCustomer(CustomerDto customerDto) {
+        CustomerEntity entity = customerRepository.save(CustomerDto.toEntity(customerDto));
+        kafkaTemplate.send("testTopic", customerDto.getCustomerId().toString(), customerDto);
+        return CustomerDto.fromEntity(entity);
     }
 }
