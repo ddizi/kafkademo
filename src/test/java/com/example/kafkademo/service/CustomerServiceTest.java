@@ -13,9 +13,13 @@ class CustomerServiceTest {
     CustomerService customerService;
 
     @Test
-    void getCustomer() {
-        String customerId = "1234";
-        String result = customerService.getCustomer(customerId);
-        assertEquals("Customer ID: 1234 is found.", result);
+    void createNewCustomer() {
+        CustomerDto customerDto = CustomerDto.builder()
+                .customerName("John Doe")
+                .age(30)
+                .genderCode("1")
+                .build();
+        CustomerDto customer = customerService.createCustomer(customerDto);
+        assertEquals(30, customer.getAge());
     }
 }
