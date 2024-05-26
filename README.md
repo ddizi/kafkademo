@@ -13,4 +13,18 @@
     ```docker-compose up```
     This will start the Kafka, Zookeeper and Kafka-UI containers and the Spring Boot application.
 
+    ## Kafka UI
+    You can access the Kafka UI by navigating to `http://localhost:8989/ui/clusters/local/all-topics` in your browser.
     
+    ## Troubleshooting
+    If you have any issues, please check the following:
+    - Make sure you have Docker installed.
+    - Kafaka and Zookeeper are running.
+    - The Kafka-UI is running.
+    - The Spring Boot application is running.
+    - The Kafka topic is created.
+    - if you are using Docker, make sure the containers are running.
+
+    ## Docker의 node를 못찾는 케이스
+    /etc/hosts 파일에 로컬IP와 도커의 node를 매핑해주면 된다.
+    ```127.0.0.1 kafkanode```
