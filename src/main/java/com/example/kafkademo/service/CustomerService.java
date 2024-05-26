@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class CustomerService {
 
@@ -23,9 +22,11 @@ public class CustomerService {
         return CustomerDto.fromEntity(entity);
     }
 
+    @Transactional
     public CustomerDto createCustomer(CustomerDto customerDto) {
         CustomerEntity entity = customerRepository.save(CustomerDto.toEntity(customerDto));
+        customerDto = CustomerDto.fromEntity(entity);
         kafkaTemplate.send("testTopic", customerDto.getCustomerId().toString(), customerDto);
-        return CustomerDto.fromEntity(entity);
+        return customerDto;
     }
 }

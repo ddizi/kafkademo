@@ -6,6 +6,8 @@ import lombok.*;
 @Entity(name="customer")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class CustomerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,12 +21,4 @@ public class CustomerEntity {
 
     @Column(length = 1)
     private String genderCode;
-
-    @Builder
-    public CustomerEntity(Integer id, String customerName, int age, String genderCode) {
-        this.id = id;
-        this.customerName = customerName;
-        this.age = age;
-        this.genderCode = genderCode;
-    }
 }
