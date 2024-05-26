@@ -2,8 +2,10 @@ package com.example.kafkademo.controller.dto;
 
 import com.example.kafkademo.service.CustomerDto;
 import lombok.Builder;
+import lombok.Getter;
 
 @Builder
+@Getter
 public class CustomerResponse {
     private Integer id;
     private String customerName;
