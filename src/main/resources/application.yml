@@ -4,7 +4,7 @@ spring:
 # JPA
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/customer
+    url: jdbc:mysql://localhost:3306/customer?createDatabaseIfNotExist=true
     username: root
     password: 123456
   jpa:
