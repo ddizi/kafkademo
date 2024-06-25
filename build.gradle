@@ -23,10 +23,18 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.kafka:spring-kafka'
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
-
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    //spring kafka
+    implementation 'org.springframework.kafka:spring-kafka'
+
+    //kafka client
+    implementation 'org.apache.kafka:kafka-clients:2.8.2'
+
+    //Spring Cloud Stream Kafka Binder
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-stream-binder-kafka', version: '3.2.1'
+
     runtimeOnly 'com.mysql:mysql-connector-j'
 
     compileOnly 'org.projectlombok:lombok'

@@ -1,5 +1,7 @@
 package com.example.kafkademo.service;
 
+import com.example.kafkademo.component.KafkaClientProducer;
+import com.example.kafkademo.component.MessageProducer;
 import com.example.kafkademo.entity.CustomerEntity;
 import com.example.kafkademo.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CustomerService {
 
-    private final KafkaTemplate<String, Object> kafkaTemplate;
     private final CustomerRepository customerRepository;
+    private final KafkaClientProducer messageProducer;
 
     public CustomerDto getCustomer(String customerId) {
 
@@ -26,7 +28,7 @@ public class CustomerService {
     public CustomerDto createCustomer(CustomerDto customerDto) {
         CustomerEntity entity = customerRepository.save(CustomerDto.toEntity(customerDto));
         customerDto = CustomerDto.fromEntity(entity);
-        kafkaTemplate.send("testTopic", customerDto.getCustomerId().toString(), customerDto);
+        messageProducer.send("testTopic", customerDto.getCustomerId().toString(), customerDto);
         return customerDto;
     }
 }
